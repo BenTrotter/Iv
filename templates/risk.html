@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div id="formLondonBlock">
+  <div id="formLondon"></div>
+  <div id="navbar">
+    {% include 'navbar.html' %}
+  </div>
+
+  <div class="formTitleText">
+    <h2>Select style of Investment</h2>
+  </div>
+
+  <div class="form">
+    <div id="formTitle">
+      <p id="formTitleMain">Please Choose Your Level of Risk</p>
+      <p>Either choose a defensive or an enterprising investment style. The software
+       will analyse the stock using your chosen style.</p>
+    </div>
+
+
+  <a href="../DefensiveChoose">
+    <img onmouseover="this.src='../static/imgs/HLDefensive.png';" id="riskButton"
+    src="../static/imgs/Defensive.png" onmouseout="this.src='../static/imgs/Defensive.png';">
+  </a>
+  <a href="../EnterpriseChoose">
+    <img onmouseover="this.src='../static/imgs/HLEnterprising.png';" id="riskButton"
+    src="../static/imgs/Enterprising.png" onmouseout="this.src='../static/imgs/Enterprising.png';">
+  </a>
+
+  </div>
+
+  {% include 'footer.html' %}
+</div>
+{% endblock %}

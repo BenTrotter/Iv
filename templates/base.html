@@ -1,0 +1,21 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>The Investor Helper</title>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="initial-scale=1.0, width=device-width, viewport-fit=cover" >
+    <link rel="icon" href="../static/imgs/Logo.png" type="image/gif">
+    <link rel='stylesheet' type='text/css' href="{% static 'css/homeStyle.css' %}"/>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat&family=Noto+Sans+TC&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.min.js"></script>
+  </head>
+  <body>
+
+    {% block content %}
+    {% endblock %}
+
+
+  </body>
+</html>

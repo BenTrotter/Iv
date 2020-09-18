@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div id="formLondonBlock">
+  <div id="formLondon"></div>
+  <div id="navbar">
+    {% include 'navbar.html' %}
+  </div>
+
+  <div class="formTitleText">
+    <h2>How it works</h2>
+  </div>
+  <div class="form">
+    <div id="formTitle">
+      <p id="formTitleMain">The Intelligent Investor</p>
+
+      <p>This software is designed to make the process of analysing stocks easier for you.
+      You need to simply type in the ticker symbol for a particular company then the software will
+      advise whether the particular stock is worth adding to your portfolio.</p>
+      <p>Warren Buffet's mentor, Benjamin Franklin, wrote a widely regarded book called The
+      Intelligent Investor. In this book Benjamin Franklin suggests a number of ratio anlaysis
+      concepts to use when deciding whether to invest in a company. Our software uses these
+      same checks to analyse your information.</p>
+      <p>The book is all about value investing and finding stocks that are undervalued. The
+        software provides you with some key information to help you determine if a stock is at
+        a good value.</p>
+      <p>If you would like to find out more about the ratios used by the software, please
+      watch this video:</p>
+
+      <iframe id="video" src="https://www.youtube.com/embed/npoyc_X5zO8?start=235"></iframe>
+
+      <p>If this all sounds good click the button below to try it out</p><br>
+      <a href="../risk" id="submitForm">Get Started</a>
+
+    </div>
+
+  </div>
+  {% include 'footer.html' %}
+</div>
+{% endblock %}

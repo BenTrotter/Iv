@@ -1,0 +1,302 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div id="formLondonBlockConfirm">
+  <div id="formLondonConfirm"></div>
+  <div id="navbar">
+    {% include 'navbar.html' %}
+  </div>
+
+  <div class="form">
+    <div id="formTitleConfirm">
+      <img id="stockLogo" src="{{logoURL}}">
+      <label id="formTitleMainConfirm">{{name}}</label>
+
+      <canvas id="graph" width="400" height="225"></canvas>
+      <script type="text/javascript">
+        chartIt();
+
+        function getData() {
+          const ylabels = [];
+          const xlabels = [];
+          const data = JSON.parse("{{history|escapejs}}");
+
+          for(var x in data){
+            xlabels.push(x);
+            ylabels.push(data[x]);
+          }
+          return{ xlabels, ylabels};
+        }
+
+        function chartIt() {
+          const data = getData();
+          const ctx = document.getElementById('graph').getContext('2d');
+          const myChart = new Chart(ctx, {
+              type: 'line',
+              data: {
+                  labels: data.xlabels,
+                  datasets: [{
+                      label: 'Stock Price',
+                      data: data.ylabels,
+                      fill: false,
+                      backgroundColor: ['rgba(255, 99, 132, 0.2)'],
+                      borderColor: ['rgba(255, 99, 132, 1)'],
+                      borderWidth: 1
+                  }]
+              },
+              options: {
+                  scales: {
+                      yAxes: [{
+                          ticks: {
+                            beginAtZero: true
+                          }
+                      }]
+                  }
+              }
+          });
+        }
+
+      </script>
+      <br>
+      {% if nonManually == True %}
+        <p>Sector: {{sector}}</p>
+        <p>Description:</p>
+        <label>{{summary}}</label>
+      {% endif %}
+
+      <p id="formTitleMain">Analysis results:
+    </div>
+    {% if nonManually == True %}
+
+      <p>Current share price: {{sharePrice}}</p>
+
+      <div class="tooltip">
+        <p>P/E ratio: {{PEratio}}</p>
+        <span class="tooltiptext">Higher the PE ratio the more overvalued the stock is. Growth
+          could be expected by the share holders if it is high. Depends on the sector too.</span>
+      </div><br>
+
+      <div class="tooltip">
+        <p>PEG ratio: {{PEGratio}}</p>
+        <span class="tooltiptext">This is the PE ratio but taking into account growth. PEG less
+        than 1 is considered undervalued. PEG over 1 is considered overvalued</span>
+      </div>
+
+      <p>Equity growth over three years:</p>
+      <label>2016-17 : {{averageGrowth.0}}%</label><br>
+      <label>2017-18 :   {{averageGrowth.1}}%</label><br>
+      <label>2018-19 : {{averageGrowth.2}}%</label>
+
+      <p>Revenue growth over three years:</p>
+      <label>2016-17 : {{revGrowth.0}}%</label><br>
+      <label>2017-18 : {{revGrowth.1}}%</label><br>
+      <label>2018-19 : {{revGrowth.2}}%</label><br>
+
+      <p>Profit growth over three years:</p>
+      <label>2016-17 : {{profGrowth.0}}%</label><br>
+      <label>2017-18 : {{profGrowth.1}}%</label><br>
+      <label>2018-19 : {{profGrowth.2}}%</label><br><br>
+
+    {% endif %}
+
+    {% if enterprise == True %}
+      <p>All of the below checks should be passed for the stock to be a good enterprising investment</p>
+    {% else %}
+      <p>All of the below checks should be passed for the stock to be a good defensive investment</p>
+    {% endif %}
+  {% if good == True %}
+    <p>The company has passed all of the checks so is therefore a safe investment to add
+      to a defensive portfolio.</p>
+  {% else %}
+   {% if enterprise == True %}
+    <p>The company has passed {{count}} out of 6 checks so is therefore not considered to be a safe
+      investment.</p>
+    {% else %}
+    <p>The company has passed {{count}} out of 7 checks so is therefore not considered to be a safe
+        investment.</p>
+    {% endif %}
+  {% endif %}
+
+  {% if enterprise == True %}
+  {% else %}
+    <div class="tooltip">
+      <label>Annual Sales: £{{sales}}</label>
+      <span class="tooltiptext">The annual sales needs to be greater than £700 million</span>
+    </div>
+    {% if sales >= 700000000 %}
+    <img id="confirmImgCheck" src="../static/imgs/Tick.png">
+    {% else %}
+    <img id="confirmImgCheck" src="../static/imgs/Cross.png">
+    {% endif %}
+  {% endif %}
+
+  <br>
+
+  {% if enterprise == False %}
+    <div class="tooltip">
+      <label>Current Ratio: {{ratio}}%</label>
+      <span class="tooltiptext">The current ratio needs to be greater than 200%</span>
+    </div>
+    {% if ratio >= 200 %}
+    <img id="confirmImgCheck" src="../static/imgs/Tick.png">
+    {% else %}
+    <img id="confirmImgCheck" src="../static/imgs/Cross.png">
+    {% endif %}
+  {% else %}
+    <div class="tooltip">
+      <label>Current Ratio: {{ratio}}%</label>
+      <span class="tooltiptext">The current ratio needs to be greater than 150%</span>
+    </div>
+    {% if ratio >= 150 %}
+    <img id="confirmImgCheck" src="../static/imgs/Tick.png">
+    {% else %}
+    <img id="confirmImgCheck" src="../static/imgs/Cross.png">
+    {% endif %}
+  {% endif %}
+
+  <br>
+
+  {% if enterprise == False %}
+    {% if dividends == False %}
+    <label>No dividends have been missed in 20 years</label>
+    <img id="confirmImgCheck" src="../static/imgs/Tick.png">
+    {% else %}
+    <label>Dividends have been missed in 20 years</label>
+    <img id="confirmImgCheck" src="../static/imgs/Cross.png">
+    {% endif %}
+  {% else %}
+    {% if dividends == False %}
+    <label>No dividends were missed last year</label>
+    <img id="confirmImgCheck" src="../static/imgs/Tick.png">
+    {% else %}
+    <label>Dividends were missed last year</label>
+    <img id="confirmImgCheck" src="../static/imgs/Cross.png">
+    {% endif %}
+  {% endif %}
+
+  <br>
+
+  {% if enterprise == False %}
+    {% if deficit == True %}
+    <label>No earnings deficit in the last 10 years</label>
+    <img id="confirmImgCheck" src="../static/imgs/Tick.png">
+    {% else %}
+    <label>There has been earnings deficit in the last 10 years</label>
+    <img id="confirmImgCheck" src="../static/imgs/Cross.png">
+    {% endif %}
+  {% else %}
+    {% if deficit == True %}
+    <label>No earnings deficit in the last 5 years</label>
+    <img id="confirmImgCheck" src="../static/imgs/Tick.png">
+    {% else %}
+    <label>There has been earnings deficit in the last 5 years</label>
+    <img id="confirmImgCheck" src="../static/imgs/Cross.png">
+    {% endif %}
+  {% endif %}
+
+
+  <br>
+
+  {% if enterprise == True %}
+    {% if earnings == True %}
+      <label>Earnings growth for at least for 5 years</label>
+      <img id="confirmImgCheck" src="../static/imgs/Tick.png">
+    {% else %}
+      <label>Earnings growth has not been consistent in 5 years</label>
+      <img id="confirmImgCheck" src="../static/imgs/Cross.png">
+    {% endif %}
+  {% else %}
+    {% if earnings == True %}
+      <label>Earnings growth of at least 2.9% annually for 10 years</label>
+      <img id="confirmImgCheck" src="../static/imgs/Tick.png">
+    {% else %}
+      <label>Earnings growth has not been at least 2.9% annually for 10 years</label>
+      <img id="confirmImgCheck" src="../static/imgs/Cross.png">
+    {% endif %}
+  {% endif %}
+
+  {% if enterprise == True %}
+    <br>
+    {% if pbr < 1.2 %}
+      <div class="tooltip">
+        <label>Price-to-book ratio: {{pbr}}</label>
+        <span class="tooltiptext">The price-to-book ratio should be less than 1.2.
+        (Bear in mind the sector)</span>
+      </div>
+      <img id="confirmImgCheck" src="../static/imgs/Tick.png">
+    {% else %}
+    <div class="tooltip">
+      <label>Price-to-book ratio: {{pbr}}</label>
+      <span class="tooltiptext">The price-to-book ratio should be less than 1.2.
+      (bear in mind the sector)</span>
+    </div>
+      <img id="confirmImgCheck" src="../static/imgs/Cross.png">
+    {% endif %}
+  {% endif %}
+
+
+  {% if enterprise == True %}
+    <br>
+    {% if PEratio < 10 %}
+      <div class="tooltip">
+        <label>P/E ratio: {{PEratio}}</label>
+        <span class="tooltiptext">The price-to-earings ratio should be less than 10.
+        (Bear in mind the sector)</span>
+      </div>
+      <img id="confirmImgCheck" src="../static/imgs/Tick.png">
+    {% else %}
+    <div class="tooltip">
+      <label>P/E ratio ratio: {{PEratio}}</label>
+      <span class="tooltiptext">The price-to-earings ratio should be less than 10.
+      (Bear in mind the sector)</span>
+    </div>
+      <img id="confirmImgCheck" src="../static/imgs/Cross.png">
+    {% endif %}
+  {% endif %}
+
+  <br>
+
+  {% if enterprise == False %}
+    {% if assets == True %}
+    <div class="tooltip">
+      <label>The company has cheap assets</label>
+      <span class="tooltiptext">Market Cap < (Assets - Liabilities) x 1.5</span>
+    </div>
+    <img id="confirmImgCheck" src="../static/imgs/Tick.png">
+    {% else %}
+    <div class="tooltip">
+      <label>The companies assets are not cheap</label>
+      <span class="tooltiptext">Market Cap < (Assets - Liabilities) x 1.5</span>
+    </div>
+    <img id="confirmImgCheck" src="../static/imgs/Cross.png">
+    {% endif %}
+    <br>
+    {% if check2 == True %}
+    <div class="tooltip">
+      <label>The stock value is reasonably priced</label>
+      <span class="tooltiptext">(PE ratio x Price-to-book ratio) is less than 22.5 </span>
+    </div>
+    <img id="confirmImgCheck" src="../static/imgs/Tick.png">
+    {% else %}
+    <div class="tooltip">
+      <label>The stock value is not reasonably priced</label>
+      <span class="tooltiptext">(PE ratio x Price-to-book ratio) is greater than 22.5 </span>
+    </div>
+    <img id="confirmImgCheck" src="../static/imgs/Cross.png">
+    {% endif %}
+
+  {% endif %}
+  <br>
+  <p>If a company passes these value checks, do some research on the company and look at their
+    management and plans for future growth. Use a a degree of pragmatism before making an
+    investment.</p>
+
+
+  <br><br>
+
+  <a href="../" id="submitFormConfirm">Finish</a>
+  <a href="../risk" id="submitFormConfirm">Do Another</a>
+  </div>
+  {% include 'footer.html' %}
+</div>
+{% endblock %}

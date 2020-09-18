@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div id="formLondonBlock">
+  <div id="formLondon"></div>
+  <div id="navbar">
+    {% include 'navbar.html' %}
+  </div>
+
+  <div class="formTitleText">
+    <h2>Please Choose a Company</h2>
+  </div>
+
+  <div class="form">
+    <div id="formTitle">
+      <p id="formTitleMain">Stock Details</p>
+
+      {% if errBool == True %}
+      <p id="errorMsg">{{error}}</p>
+      <p id="errorMsg">{{error2}}</p>
+      {% else %}
+      <p>Enter the companies ticker symbol to analyse the company in an enterprising way.
+      Put a .L at the end of the ticker if the company is from the London Stock Exchange.</p>
+      {% endif %}
+
+    </div>
+
+
+    <form action="../confirmationEnterChoose/" method="POST">{% csrf_token %}
+      <div class="tooltip">
+        <label>Company Ticker Symbol</label>
+        <span class="tooltiptext">A ticker symbol is a unique series of letters assigned to
+        a company</span>
+      </div>
+      <input type="text" name="name" placeholder="e.g. AAPL"required>
+
+      <input id="submitForm" type="submit" value="Submit">
+      {% if errBool == True %}
+      <a id="submitForm" href="../form">Enter Manually</a>
+      {% endif %}
+    </form>
+  </div>
+
+  {% include 'footer.html' %}
+</div>
+{% endblock %}

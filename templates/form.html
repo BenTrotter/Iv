@@ -1,0 +1,101 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div id="formLondonBlock">
+  <div id="formLondon"></div>
+  <div id="navbar">
+    {% include 'navbar.html' %}
+  </div>
+
+  <div class="formTitleText">
+    <h2>Please Fill In The Form</h2>
+  </div>
+
+  <div class="form">
+    <div id="formTitle">
+      <p id="formTitleMain">Stock Details</p>
+      <p>Use company annual reports and other information sources to fill in the required
+        details. Please try to use as up-to-date information as possible. It should take
+        you 10 to 15 minutes to complete.</p>
+    </div>
+    <form action="../confirmation/" method="POST">{% csrf_token %}
+      <div class="tooltip">
+        <label>Company Ticker Symbol</label>
+        <span class="tooltiptext">A ticker symbol is a unique series of letters assigned to
+        a company</span>
+      </div>
+      <input type="text" name="name" placeholder="e.g. AAPL"required>
+
+      <label>Earnings per share over the last 12 months</label>
+      <input type="number" step="0.01" name="EPS" placeholder="£" required>
+
+      <label>Annual Sales </label><label id="sideNote">* in millions of GBP</label>
+      <input type="number" name="sales" placeholder="£" required>
+
+      <div class="tooltip">
+        <label>Market Cap</label><label id="sideNote">* in millions of GBP</label>
+        <span class="tooltiptext">The total market value of a company's outstanding shares</span>
+      </div>
+      <input type="number" name="cap" placeholder="£" required>
+
+      <label>Current Assets</label><label id="sideNote">* in millions of GBP</label>
+      <input type="number" name="cassets" placeholder="£" required>
+
+      <label>Current Liabilities</label><label id="sideNote">* in millions of GBP</label>
+      <input type="number" name="cliabilities" placeholder="£" required>
+
+      <label>Total Assets</label><label id="sideNote">* in millions of GBP</label>
+      <input type="number" name="tassets" placeholder="£" required>
+
+      <label>Total Liabilities</label><label id="sideNote">* in millions of GBP</label>
+      <input type="number" name="tliabilities" placeholder="£" required>
+
+      <div class="tooltip">
+        <label>Has the company missed any dividends in the last 20 years</label>
+        <span class="tooltiptext">A dividend is the regular payment made to shareholders
+        by a company</span>
+      </div>
+      <label class="container">Yes
+        <input type="radio" name="dividends" value="true" required>
+        <span class="checkmark"></span>
+      </label>
+      <label class="container">No
+        <input type="radio" name="dividends" value="false" required>
+        <span class="checkmark"></span>
+      </label>
+
+      <div class="tooltip">
+        <label>Has the company had no earnings deficit in the last 10 years</label>
+        <span class="tooltiptext">Earnings deficit is when cumulative losses are greater
+        than cumulative profits</span>
+      </div>
+      <label class="container">Yes
+        <input type="radio" name="deficit" value="true" required>
+        <span class="checkmark"></span>
+      </label>
+      <label class="container">No
+        <input type="radio" name="deficit" value="false" required>
+        <span class="checkmark"></span>
+      </label>
+
+      <label>Has the company had an earnings growth of at least 2.9% annually for the last 10 years</label>
+      <label class="container">Yes
+        <input type="radio" name="earnings" value="true" required>
+        <span class="checkmark"></span>
+      </label>
+      <label class="container">No
+        <input type="radio" name="earnings" value="false" required>
+        <span class="checkmark"></span>
+      </label>
+
+      <label>Share Price</label>
+      <input type="number" name="share" placeholder="£" required>
+
+      <input id="submitForm" type="submit" value="Submit">
+    </form>
+  </div>
+
+  {% include 'footer.html' %}
+</div>
+{% endblock %}

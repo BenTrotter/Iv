@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div id="formLondonBlock">
+  <div id="formLondon"></div>
+  <div id="navbar">
+    {% include 'navbar.html' %}
+  </div>
+
+  <div class="formTitleText">
+    <h2>Success</h2>
+  </div>
+  <div class="form">
+    <div id="formTitle">
+      <p id="formTitleMain">{{name}} Results</p>
+      <p>Every check must have passed for the stock to be a good investment. Here are the results:</p>
+    </div>
+
+
+
+  <br><br><br>
+
+  <a href="../" id="submitForm">Finish</a>
+  </div>
+  {% include 'footer.html' %}
+</div>
+{% endblock %}
